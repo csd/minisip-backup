@@ -49,8 +49,9 @@ private:
 
 	std::string logServerAddress;			//Address of the log server
 	std::string logServerPort;				//Port of the log server
-
 	bool loggingFlag;						//Logging Flag
+
+	MRef<SipIdentity*> currentSipIdentity;
 };
 
 /**
@@ -67,11 +68,14 @@ public:
 	std::string getLoggingServerAddress();				//Returns the logging server address
 	std::string getLoggingServerPort();					//Returns the logging server port
 	bool getLoggingFlag();								//Returns the logging flag
+	MRef<SipIdentity*> getCurrentSipIdentity();				//Returns the user id
 
 private:
 	std::string loggingServerAddress;					//Log server address
 	std::string loggingServerPort;						//Log server port
 	bool loggingFlag;									//Flag to on and off logging
+
+	MRef<SipIdentity*> currentSipIdentity;			//User Default Identity
 };
 
 /*

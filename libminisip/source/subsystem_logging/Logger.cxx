@@ -173,6 +173,11 @@ void Logger::setLoggingFlag(bool flag) {
 	this->loggingFlag = flag;
 }
 
+//Sets the user ID
+void Logger::setCurrentSipIdentity(MRef<SipIdentity*> currentSipIdentity){
+	this->currentSipIdentity = currentSipIdentity;
+}
+
 //Sends the logs to the sender
 void Logger::sendLogs(std::string log) {
 	//Increments the log Count
@@ -243,6 +248,9 @@ void Logger::startLogger() {
 
 	//Initializes the log count to 0
 	logCount = 0;
+
+	//sets the user ID in log utils
+	loggerUtils.setCurrentSipIdentity(this->currentSipIdentity);
 }
 
 //Closes the connection with logging server and closes the files refering to by the logger
@@ -312,7 +320,7 @@ std::string LoggerUtils::createLog(std::string value, std::string message) {
 	logIDString = logIDString + "<pid>" + getProcessId() + "</pid>";
 
 	//Adding the user ID
-	logIDString = logIDString + "<uid>" + "" + "</uid>";
+	logIDString = logIDString + "<uid>" + currentSipIdentity->identityIdentifier + "</uid>";
 
 	//Adding the call ID
 	logIDString = logIDString + "<call_id>" + "" + "</call_id>";
@@ -327,4 +335,9 @@ std::string LoggerUtils::createLog(std::string value, std::string message) {
 	logIDString = logIDString + "</log>";
 
 	return logIDString;
+}
+
+//Sets the user ID
+void LoggerUtils::setCurrentSipIdentity(MRef<SipIdentity*> currentSipIdentity){
+	this->currentSipIdentity = currentSipIdentity;
 }

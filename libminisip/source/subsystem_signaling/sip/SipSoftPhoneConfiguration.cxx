@@ -391,7 +391,7 @@ void SipSoftPhoneConfiguration::save(){
 
 	backend->save( "log_server_addr", logServerAddr );
 	backend->save( "log_server_port", logServerPort );
-	backend->saveBool("logging", false);
+	backend->saveBool("logging", loggingFlag);
 
 	list<string>::iterator iCodec;
 	uint8_t iC = 0;

@@ -25,6 +25,7 @@
 #include<libmutil/Thread.h>
 #include<libmutil/MSingleton.h>
 #include<libmnetutil/TCPSocket.h>
+#include<libmsip/SipDialogConfig.h>
 
 #define DEFAULT_LEVEL 0
 #define INFO 0
@@ -42,13 +43,14 @@ class LoggerUtils {
 
 private:
 	std::string processId;
-
+	MRef<SipIdentity*> currentSipIdentity;
 	std::string getTimeStamp();
 	std::string getProcessId();
 
 public:
 	LoggerUtils();
 	std::string createLog(std::string value,std::string message); //Creates the log message into the XML format
+	void setCurrentSipIdentity(MRef<SipIdentity*> currentSipIdentity);	//Sets the user ID
 };
 
 /*
@@ -83,17 +85,19 @@ private:
 	int logCount;						//Number of Logs in the buffer
 	bool loggingFlag;
 	std::string logDirectoryPath;		//Log Directory path
+	MRef<SipIdentity*> currentSipIdentity;		//User ID
 
 	queue<string> temporaryBuffer;		//Temporary buffer which keeps the logs in logger
 	TCPSocket* senderSocket;			//TCP socket for sending logs
 
 	LoggingManager* loggingManager; 	//Logging Manager
-	LoggerUtils loggerUtils;			//Logger Utils
-	LogSender* logSender;
+	LogSender* logSender;				//Log Sender
+
 	void sendLogs(std::string log);		//Initializes the Log sender appropriately
 
 public:
 	std::string log_version;            //The version of the logging module
+	LoggerUtils loggerUtils;			//Logger Utils
 
 	Logger();
 	~Logger();
@@ -106,7 +110,7 @@ public:
 	void setLoggingManager(LoggingManager* loggingManager);		//Sets the Logging Manager
 	void setLogDirectoryPath(std::string logDirectoryPath);		//Sets the Log Directory path
 	void setLoggingFlag(bool flag);						//Sets the logging flag
-
+	void setCurrentSipIdentity(MRef<SipIdentity*>);			//Sets the SipIdentity
 	void startLogger();									//Starts the logger
 	void stopLogger();									//Stops the logger
 
