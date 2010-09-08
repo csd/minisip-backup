@@ -39,6 +39,7 @@ LoggingManager::LoggingManager(LoggingConfiguration* loggingConf) {
 	this->logServerAddress = loggingConf->getLoggingServerAddress();
 	this->logServerPort = loggingConf->getLoggingServerPort();
 	this->loggingFlag = loggingConf->getLoggingFlag();
+	this->currentSipIdentity = loggingConf->getCurrentSipIdentity();
 
 	//Log directory location definition
 	logDirectoryPath = UserConfig::getMiniSIPHomeDirectory() + "/log/";
@@ -51,6 +52,8 @@ LoggingManager::LoggingManager(LoggingConfiguration* loggingConf) {
 	logger = MSingleton<Logger>::getInstance();
 	logger->setLoggingManager(this);
 	logger->setLogDirectoryPath(logDirectoryPath);
+	logger->setCurrentSipIdentity(loggingConf->getCurrentSipIdentity());
+
 	if(this->loggingFlag){
 		logger->startLogger();
 	}
@@ -88,6 +91,7 @@ LoggingConfiguration::LoggingConfiguration(MRef<SipSoftPhoneConfiguration*> phon
 	this->loggingServerAddress = phoneConf->logServerAddr;
 	this->loggingServerPort = phoneConf->logServerPort;
 	this->loggingFlag = phoneConf->loggingFlag;
+	this->currentSipIdentity = phoneConf->defaultIdentity;
 }
 
 //Sets the logging server address
@@ -120,6 +124,10 @@ bool LoggingConfiguration::getLoggingFlag(){
 	return this->loggingFlag;
 }
 
+//Returns the User ID
+MRef<SipIdentity*> LoggingConfiguration::getCurrentSipIdentity(){
+	return this->currentSipIdentity;
+}
 
 CrashSender::CrashSender(std::string crashDirectoryPath) {
 	this->crashDirectoryPath = crashDirectoryPath;

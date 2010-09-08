@@ -56,6 +56,7 @@
 #include<libminisip/signaling/sip/SipSoftPhoneConfiguration.h>
 #include<libminisip/contacts/ContactDb.h>
 #include<libmsip/SipCommandString.h>
+#include<libminisip/logging/LoggingManager.h>
 
 #ifdef HAVE_LIBGLADEMM_2_6
 #	include<gtkmm/aboutdialog.h>
@@ -829,6 +830,8 @@ void MainWindow::accountListSelect() {
 
 	config->defaultIdentity =
 		(*iter)[accountsList->getColumns()->identity];
+	MRef<Logger *> logger = MSingleton<Logger>::getInstance();
+	logger->loggerUtils.setCurrentSipIdentity(config->defaultIdentity);
 
 	accountLabel->set_label( (*iter)[accountsList->getColumns()->name] );
 }
