@@ -1,0 +1,3 @@
+[submodule "libmnetutil/udns/source"]
+	path = libmnetutil/udns/source
+	url = git://github.com/csd/udns.git
