@@ -92,6 +92,7 @@ SipSoftPhoneConfiguration::SipSoftPhoneConfiguration():
 	displayFrameRate(""),
 	usePSTNProxy(false),
 	ringtone(""),
+	logServerAddr(""),
 	p2tGroupListServerPort(0)
 {
 	sipStackConfig = new SipStackConfig;
@@ -387,6 +388,10 @@ void SipSoftPhoneConfiguration::save(){
 	
 	backend->save( "frame_width", frameWidth );
 	backend->save( "frame_height", frameHeight );
+
+	backend->save( "log_server_addr", logServerAddr );
+	backend->save( "log_server_port", logServerPort );
+	backend->saveBool("logging", false);
 
 	list<string>::iterator iCodec;
 	uint8_t iC = 0;
@@ -857,6 +862,10 @@ string SipSoftPhoneConfiguration::load( MRef<ConfBackend *> be ){
 	displayFrameSize = backend->loadString("display_frame_size","");
 	displayFrameRate = backend->loadString("display_frame_rate","");
 
+	logServerAddr = backend->loadString("log_server_addr","");
+	logServerPort = backend->loadString("log_server_port","");
+	loggingFlag = backend->loadBool("logging",false);
+
 	//Even if we can't send video, we might be able to display it.
 	//Therefore this is not within the VIDEO_SUPPORT ifdef
 	frameWidth = backend->loadInt( "frame_width", 176 );
@@ -1039,6 +1048,11 @@ void SipSoftPhoneConfiguration::saveDefault( MRef<ConfBackend *> be ){
 #endif
 
 	be->save( "phonebook[0]", "file://" + getDefaultPhoneBookFilename() );
+
+	be->save("log_server_addr", "log.carenet-se.se");
+	be->save("log_server_port", "8700");
+	be->saveBool("logging",false);
+
 
 //we can save startup commands ... but do nothing by default ...
 //<startup_cmd><command>call</command><params>uri</params></startup_cmd>

@@ -26,6 +26,7 @@
 #include<libminisip/media/video/codec/AVDecoder.h>
 #include<libminisip/media/video/ImageHandler.h>
 #include<libminisip/media/video/VideoException.h>
+#include<libminisip/logging/LoggingManager.h>
 
 #include<iostream>
 #include<string.h>
@@ -138,6 +139,9 @@ void AVDecoder::decodeFrame( uint8_t * data, uint32_t length ){
                 printf("%d frames in %fs\n", REPORT_N, sec);
                 printf("FPS_DECODE: %f\n", (float)REPORT_N/(float)sec );
                 lasttime=now;
+		char temp[20];
+		sprintf(temp, "%f", REPORT_N/sec);
+		Logger::getInstance()->info(temp, "decoder.framerate");
         }
 
 	int ret;
@@ -223,6 +227,9 @@ void AVDecoder::decodeFrame( uint8_t * data, uint32_t length ){
 		last_cput  = now_cpu;
 		last_wallt = now_wall;
 		cerr <<"========> AVDecoder CPU usage: "<< ((float)delta_cpu/(float)delta_wall)*100.0<<"%"<<endl;
+		char temp[20];
+		sprintf(temp, "%f %", ((float)delta_cpu/(float)delta_wall)*100.0);
+		Logger::getInstance()->info(temp, "decoder.cpu");
 	}
 
 }	

@@ -33,6 +33,7 @@
 #include<libmutil/stringutils.h>
 #include<libmutil/merror.h>
 #include<time.h>
+#include<libminisip/logging/LoggingManager.h>
 
 using namespace std;
 
@@ -667,6 +668,9 @@ void DeckLinkGrabber::read( ImageHandler * handler ){
 			cerr <<"DeckLinkGrabber:: CPU USAGE: "<< now_cpu.tv_sec<<"."<<now_cpu.tv_nsec<<endl;
 			cerr <<"delta_cpu="<<delta_cpu/1000<<" delta_wall="<<delta_wall/1000<<endl;
 			cerr <<"========> DeckLinkGrabber: CPU usage: "<< ((float)delta_cpu/(float)delta_wall)*100.0<<"%"<<endl;
+			char temp[20];
+			sprintf(temp, "%2f %", ((float)delta_cpu/(float)delta_wall)*100.0);
+			Logger::getInstance()->info(temp, "grabber.cpu");
 			last_cput=now_cpu;
 			last_wallt=now_wall;
 
