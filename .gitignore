@@ -21,6 +21,11 @@ thumbs.db
 *.la
 *.pc
 
+# Eclipse
+.project
+.cproject
+Debug
+
 # Configure
 configure
 config.h
