@@ -30,6 +30,7 @@
 class LIBMINISIP_API UserConfig
 {
 	public:
+		static std::string getMiniSIPHomeDirectory(void);
 		static std::string getFileName(std::string baseName);
 
 	protected:
