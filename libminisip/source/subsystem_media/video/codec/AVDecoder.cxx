@@ -139,8 +139,8 @@ void AVDecoder::decodeFrame( uint8_t * data, uint32_t length ){
                 printf("%d frames in %fs\n", REPORT_N, sec);
                 printf("FPS_DECODE: %f\n", (float)REPORT_N/(float)sec );
                 lasttime=now;
-		char temp[20];
-		sprintf(temp, "%f", REPORT_N/sec);
+		char temp[100];
+		sprintf(temp, "%.2f", REPORT_N/sec);
 		Logger::getInstance()->info(temp, "decoder.framerate");
         }
 
