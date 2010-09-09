@@ -69,9 +69,9 @@ CallWidget::CallWidget( string callId, string remoteUri,
 		rejectButton( Gtk::Stock::CANCEL, "Reject" ),
 /***************************************************************************/
 		addCameraButton(Gtk::Stock::ADD,"Add Camera"),
-		addScreenButton(Gtk::Stock::ADD,"Stream Screen"),
+		addScreenButton(Gtk::Stock::ADD,"Share Screen"),
 		cancelCameraButton(Gtk::Stock::CANCEL,"Stop additional camera"),
-		cancelScreenButton(Gtk::Stock::CANCEL,"Stop streaming screen"),		
+		cancelScreenButton(Gtk::Stock::CANCEL,"Stop screen sharing"),		
 
 
 
