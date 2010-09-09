@@ -47,6 +47,7 @@ CallWidget::CallWidget( string callId, string remoteUri,
 		status( "", Gtk::ALIGN_LEFT ),
 		secStatus( "", Gtk::ALIGN_LEFT ),
 		buttonBox(/*homogenius*/ true ),
+		buttonBox2(/*homogenius*/ true ),
 #ifndef OLDLIBGLADEMM
 		dtmfArrow( "Dialpad" ),
 		transferArrow( "Call transfer" ),
@@ -107,6 +108,7 @@ CallWidget::CallWidget( string callId, string remoteUri,
 //	add( status );
 //	add( secStatus );
 	pack_end( buttonBox, false, true );
+	pack_end( buttonBox2, false, true );
 
 	//buttonBox.set_expand( false );
 
@@ -158,16 +160,17 @@ CallWidget::CallWidget( string callId, string remoteUri,
 	buttonBox.add( acceptButton );
 	buttonBox.add( rejectButton );
 /*************************************************/
-	buttonBox.add( addCameraButton );
-	buttonBox.add( addScreenButton );
-	buttonBox.add( cancelCameraButton );
-	buttonBox.add( cancelScreenButton );
+	buttonBox2.add( addCameraButton );
+	buttonBox2.add( addScreenButton );
+	buttonBox2.add( cancelCameraButton );
+	buttonBox2.add( cancelScreenButton );
 
 
 //	status.show();
 //	secStatus.show();
 	topBox->show_all();
 	buttonBox.show_all();
+	buttonBox2.show_all();
 //	rejectButton.show();
 //        acceptButton.hide();
 

@@ -63,6 +63,7 @@ class ImWidget : public Gtk::VBox{
 		Gtk::TextBuffer::iterator historyIter;
 
 		Gtk::HBox * buttonBox;
+		Gtk::HBox * buttonBox2;
 		Gtk::Button * closeButton;
 
 		std::string toUri;

@@ -49,6 +49,7 @@ ImWidget::ImWidget( MainWindow * mainWindow, string toUri, string fromUri ){
 	messageLabel = new Gtk::Label( "New message:" );
 	closeButton = new Gtk::Button( "Close" );
 	buttonBox = new Gtk::HBox();
+	buttonBox2 = new Gtk::HBox();
 
 	historyView->set_wrap_mode( Gtk::WRAP_WORD );
 	messageView->set_wrap_mode( Gtk::WRAP_WORD );
@@ -59,6 +60,7 @@ ImWidget::ImWidget( MainWindow * mainWindow, string toUri, string fromUri ){
 	pack_start( *messageLabel, false, true );
 	pack_start( *messageWindow, false, true );
 	pack_end( *buttonBox, false, true );
+	pack_end( *buttonBox2, false, true );
 
 	buttonBox->pack_end( *closeButton, false, true );
 
@@ -104,6 +106,7 @@ ImWidget::~ImWidget(){
 	delete messageWindow;
 	delete closeButton;
 	delete buttonBox;
+	delete buttonBox2;
 	delete messageLabel;
 }
 	
