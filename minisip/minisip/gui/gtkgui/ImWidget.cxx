@@ -48,8 +48,8 @@ ImWidget::ImWidget( MainWindow * mainWindow, string toUri, string fromUri ){
 	messageView = new ImMessageTextView( this );
 	messageLabel = new Gtk::Label( "New message:" );
 	closeButton = new Gtk::Button( "Close" );
-	buttonBox = new Gtk::HBox();
 	buttonBox2 = new Gtk::HBox();
+	buttonBox = new Gtk::HBox();
 
 	historyView->set_wrap_mode( Gtk::WRAP_WORD );
 	messageView->set_wrap_mode( Gtk::WRAP_WORD );
@@ -105,8 +105,8 @@ ImWidget::~ImWidget(){
 	delete historyWindow;
 	delete messageWindow;
 	delete closeButton;
-	delete buttonBox;
 	delete buttonBox2;
+	delete buttonBox;
 	delete messageLabel;
 }
 	
