@@ -268,6 +268,14 @@ void Logger::stopLogger() {
 	}
 }
 
+void LoggerUtils::setCallId(std::string callId){
+	this->callId = callId;
+}
+
+std::string LoggerUtils::getCallId(){
+	return this->callId;
+}
+
 //FIXME: Use proper XML handling
 LoggerUtils::LoggerUtils() {
 	pid_t pid;
@@ -321,9 +329,9 @@ std::string LoggerUtils::createLog(std::string value, std::string message) {
 
 	//Adding the user ID
 	logIDString = logIDString + "<uid>" + currentSipIdentity->identityIdentifier + "</uid>";
-
+	cerr<<"****************Logger Call id"<<callId<<endl;
 	//Adding the call ID
-	logIDString = logIDString + "<call_id>" + "" + "</call_id>";
+	logIDString = logIDString + "<call_id>" + callId + "</call_id>";
 
 	//Adding the Log Data
 	logIDString = logIDString + "<log_id>" + message + "</log_id>";

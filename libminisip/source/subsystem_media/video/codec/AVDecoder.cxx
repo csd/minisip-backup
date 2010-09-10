@@ -227,8 +227,8 @@ void AVDecoder::decodeFrame( uint8_t * data, uint32_t length ){
 		last_cput  = now_cpu;
 		last_wallt = now_wall;
 		cerr <<"========> AVDecoder CPU usage: "<< ((float)delta_cpu/(float)delta_wall)*100.0<<"%"<<endl;
-		char temp[20];
-		sprintf(temp, "%f %", ((float)delta_cpu/(float)delta_wall)*100.0);
+		char temp[100];
+		sprintf(temp, "%.2f %", ((float)delta_cpu/(float)delta_wall)*100.0);
 		Logger::getInstance()->info(temp, "decoder.cpu");
 	}
 

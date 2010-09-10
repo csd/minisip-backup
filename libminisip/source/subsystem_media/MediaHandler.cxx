@@ -104,10 +104,7 @@ void MediaHandler::init(){
         ringtoneFile = config->ringtone;
 }
 
-
 MRef<Session *> MediaHandler::createSession( MRef<SipIdentity*> id, string callId ){
-
-
 	list< MRef<Media *> >::iterator i;
 	MRef<Session *> session;
 	MRef<RtpReceiver *> rtpReceiver = NULL;

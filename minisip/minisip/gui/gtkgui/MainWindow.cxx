@@ -830,9 +830,9 @@ void MainWindow::accountListSelect() {
 
 	config->defaultIdentity =
 		(*iter)[accountsList->getColumns()->identity];
+
 	MRef<Logger *> logger = MSingleton<Logger>::getInstance();
 	logger->loggerUtils.setCurrentSipIdentity(config->defaultIdentity);
-
 	accountLabel->set_label( (*iter)[accountsList->getColumns()->name] );
 }
 
