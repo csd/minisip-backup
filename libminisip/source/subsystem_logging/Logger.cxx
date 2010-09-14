@@ -155,7 +155,7 @@ void Logger::setLevel(std::string logLevel) {
 
 //Initilizes the logging version
 void Logger::setLoggingModuleVersion(void) {
-	log_version = "0.0.3";
+	log_version = "0.0.5";
 }
 
 //Sets the logging manger reference
@@ -285,6 +285,10 @@ LoggerUtils::LoggerUtils() {
 	this->processId = procid;
 }
 
+void LoggerUtils::setCallId(std::string callId) {
+	this->callId = callId;
+}
+
 std::string LoggerUtils::getTimeStamp() {
 	size_t maxsize = 50;
 	time_t rawtime;
@@ -323,7 +327,7 @@ std::string LoggerUtils::createLog(std::string value, std::string message) {
 	logIDString = logIDString + "<uid>" + currentSipIdentity->identityIdentifier + "</uid>";
 
 	//Adding the call ID
-	logIDString = logIDString + "<call_id>" + "" + "</call_id>";
+	logIDString = logIDString + "<call_id>" + callId + "</call_id>";
 
 	//Adding the Log Data
 	logIDString = logIDString + "<log_id>" + message + "</log_id>";

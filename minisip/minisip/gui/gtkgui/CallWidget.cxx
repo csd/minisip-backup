@@ -30,6 +30,7 @@
 #include<libminisip/media/MediaCommandString.h>
 //#include<libminisip/media/Session.h>
 //#include<libminisip/media/MediaStream.h>
+#include<libminisip/logging/LoggingManager.h>
 
 #ifdef OLDLIBGLADEMM
 #define SLOT(a,b) SigC::slot(a,b)
@@ -672,7 +673,8 @@ void StockButton::set_label (const Glib::ustring& label){
 }
 
 void CallWidget::activeWidgetChanged( bool isActive, int currentActive ) {
-
+	MRef<Logger *> logger = MSingleton<Logger>::getInstance();
+	
 	if( isActive == activeCallWidget ) {
 #ifdef DEBUG_OUTPUT
 // 		cerr << "CallWidget::activeCall - nothing to do here (no active state change)" << endl;
@@ -707,7 +709,13 @@ void CallWidget::activeWidgetChanged( bool isActive, int currentActive ) {
 					"senders", "ON" );
 			//mainWindow->getCallback()->guicb_handleMediaCommand( cmdstr );
 			mainWindow->getCallback()->handleCommand("media", cmdstr );
+			//Logging the callId
+			string callId = getMainCallId();
+			logger->loggerUtils.setCallId(callId);
 		} else {
+			//Logging the callId
+			string callId = getMainCallId();
+			logger->loggerUtils.setCallId(callId);
 #ifdef DEBUG_OUTPUT
 // 			fprintf( stderr, "CallWidget::onTabChange ... doing nothing (call widget state)!\n" );
 #endif

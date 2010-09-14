@@ -43,6 +43,7 @@ class LoggerUtils {
 
 private:
 	std::string processId;
+	std::string callId;
 	MRef<SipIdentity*> currentSipIdentity;
 	std::string getTimeStamp();
 	std::string getProcessId();
@@ -51,6 +52,7 @@ public:
 	LoggerUtils();
 	std::string createLog(std::string value,std::string message); //Creates the log message into the XML format
 	void setCurrentSipIdentity(MRef<SipIdentity*> currentSipIdentity);	//Sets the user ID
+	void setCallId(std::string callId);				//Sets call ID
 };
 
 /*

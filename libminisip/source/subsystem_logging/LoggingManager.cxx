@@ -42,7 +42,7 @@ LoggingManager::LoggingManager(LoggingConfiguration* loggingConf) {
 	this->currentSipIdentity = loggingConf->getCurrentSipIdentity();
 
 	//Log directory location definition
-	logDirectoryPath = UserConfig::getMiniSIPHomeDirectory() + "/log/";
+	logDirectoryPath = UserConfig::getMiniSIPHomeDirectory() + "/logs";
 
 	//Crash report location definition
 	crashDirectoryPath = UserConfig::getMiniSIPHomeDirectory()
