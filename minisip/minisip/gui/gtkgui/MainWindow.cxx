@@ -1214,6 +1214,8 @@ void MainWindow::onTabChange( GtkNotebookPage * page, guint index ){
 	CallWidget * callWidget = NULL;
 	ConferenceWidget *confWidget = NULL;
 	ImWidget * imWidget = NULL;
+
+	MRef<Logger *> logger = MSingleton<Logger>::getInstance();
 	
 	//cast the current page to the possible media widgets ...
 	callWidget = dynamic_cast< CallWidget *>( currentPage );
@@ -1222,6 +1224,14 @@ void MainWindow::onTabChange( GtkNotebookPage * page, guint index ){
 	if( confWidget == NULL ) 
 		imWidget = dynamic_cast< ImWidget *>( currentPage );
 	
+	//Set the call ID
+	if(callWidget){
+		logger->loggerUtils.setCallId(callWidget->getMainCallId());
+	}
+	else{
+		logger->loggerUtils.setCallId("");
+	}
+
 	//go through all the widgets, notifying them of the change
 	list<CallWidget *>::iterator iterCall;
 	for( iterCall = callWidgets.begin();
