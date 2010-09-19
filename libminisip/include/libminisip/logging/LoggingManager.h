@@ -39,6 +39,7 @@ public:
 	void stop(); 								//Stops the logging sub system
 	std::string getLoggingServerAddress();		//Returns the logging server address
 	std::string getLoggingServerPort();			//Returns the logging server port
+	std::string getCrashDirectory();			//Returns the crash directory path
 
 private:
 	void sendCrashReports();				//Send the crash reports in the startup of the minisip
@@ -86,16 +87,20 @@ class CrashSender: public Runnable{
 public:
 	CrashSender(std::string crashDirectoryPath);
 	~CrashSender();
-	bool start();							//Starts the thread
-	bool stop();							//Stops the thread
+	bool start();															//Starts the thread
+	bool stop();															//Stops the thread
 	bool join();
-	virtual void run();						//Starts the Log sender
+	virtual void run();														//Starts the Log sender
+	std::string createXML(std::string message,std::string value);			//Creates the XML to send
 
 private:
 	TCPSocket* crashSenderSocket;			//Socket which send the crash report
 	MRef<Thread *> thread;					//Thread
 
 	std::string crashDirectoryPath;			//Path for the crash report directory
+	std::string crashPID;					//Crash PID
+	std::string logServerAddress;			//Log server address
+	std::string logServerPort;				//Log server port
 };
 
 #endif

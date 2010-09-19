@@ -174,7 +174,7 @@ void Logger::setLoggingFlag(bool flag) {
 }
 
 //Sets the user ID
-void Logger::setCurrentSipIdentity(MRef<SipIdentity*> currentSipIdentity){
+void Logger::setCurrentSipIdentity(MRef<SipIdentity*> currentSipIdentity) {
 	this->currentSipIdentity = currentSipIdentity;
 }
 
@@ -234,6 +234,7 @@ void Logger::startLogger() {
 		senderSocket = new TCPSocket(
 				this->loggingManager->getLoggingServerAddress().c_str(),
 				serverPort);
+		this->senderSocket->write("LOG\n");
 		cerr << "Connection Established with logging server "
 				<< this->loggingManager->getLoggingServerPort() << " "
 				<< serverPort << endl;
@@ -251,6 +252,20 @@ void Logger::startLogger() {
 
 	//sets the user ID in log utils
 	loggerUtils.setCurrentSipIdentity(this->currentSipIdentity);
+
+	//FIXME:Workaround for send crash report immediately
+	FILE *crashFilePointer = fopen(
+			(this->loggingManager->getCrashDirectory() + "/.crash_conf").c_str(), "w");
+	if (!crashFilePointer == NULL) {
+		fprintf(
+				crashFilePointer,
+				(this->loggingManager->getLoggingServerAddress() + "\n").c_str());
+		fprintf(crashFilePointer, (this->loggingManager->getLoggingServerPort()
+				+ "\n").c_str());
+		fprintf(crashFilePointer,
+				(this->loggerUtils.getProcessId() + "\n").c_str());
+		fclose(crashFilePointer);
+	}
 }
 
 //Closes the connection with logging server and closes the files refering to by the logger
@@ -324,7 +339,8 @@ std::string LoggerUtils::createLog(std::string value, std::string message) {
 	logIDString = logIDString + "<pid>" + getProcessId() + "</pid>";
 
 	//Adding the user ID
-	logIDString = logIDString + "<uid>" + currentSipIdentity->identityIdentifier + "</uid>";
+	logIDString = logIDString + "<uid>"
+			+ currentSipIdentity->identityIdentifier + "</uid>";
 
 	//Adding the call ID
 	logIDString = logIDString + "<call_id>" + callId + "</call_id>";
@@ -342,6 +358,6 @@ std::string LoggerUtils::createLog(std::string value, std::string message) {
 }
 
 //Sets the user ID
-void LoggerUtils::setCurrentSipIdentity(MRef<SipIdentity*> currentSipIdentity){
+void LoggerUtils::setCurrentSipIdentity(MRef<SipIdentity*> currentSipIdentity) {
 	this->currentSipIdentity = currentSipIdentity;
 }
