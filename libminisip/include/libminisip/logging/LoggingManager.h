@@ -85,12 +85,13 @@ private:
 class CrashSender: public Runnable{
 
 public:
-	CrashSender(std::string crashDirectoryPath);
+	CrashSender();
 	~CrashSender();
 	bool start();															//Starts the thread
 	bool stop();															//Stops the thread
 	bool join();
 	virtual void run();														//Starts the Log sender
+	void send();															//Sends the crash report
 	std::string createXML(std::string message,std::string value);			//Creates the XML to send
 
 private:

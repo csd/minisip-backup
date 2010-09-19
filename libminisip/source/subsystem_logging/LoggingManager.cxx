@@ -89,7 +89,7 @@ std::string LoggingManager::getCrashDirectory() {
 
 //Sends the crash reports in the startup of minisip
 void LoggingManager::sendCrashReports() {
-	CrashSender* crashSender = new CrashSender(crashDirectoryPath);
+	CrashSender* crashSender = new CrashSender();
 	crashSender->start();
 }
 
@@ -139,7 +139,7 @@ MRef<SipIdentity*> LoggingConfiguration::getCurrentSipIdentity() {
 bool initialized = false;
 std::string getTimeStamp();
 
-CrashSender::CrashSender(std::string crashDirectoryPath) {
+CrashSender::CrashSender() {
 	//Crash report location definition
 	crashDirectoryPath = UserConfig::getMiniSIPHomeDirectory()
 				+ "/crash_reports";
@@ -238,6 +238,10 @@ void CrashSender::run() {
 			cerr << "Logging Sever Not Found" << endl;
 		}
 	}
+}
+
+void CrashSender::send(){
+	this->run();
 }
 
 //Creates the log_id part of the log

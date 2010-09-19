@@ -357,7 +357,14 @@ static void signalHandler(int signum, siginfo_t* info, void*ptr) {
 	fprintf(stderr, "End of stack trace\n");
 	fprintf(crashFilePointer, "End of stack trace\n");
 	fclose(crashFilePointer);
-#endif	// SIGSEGV_NOSTACK
+
+	pid_t  pid;
+
+	pid = fork();
+	if (pid == 0){
+		system("minisip_gtkgui crash");
+	}
+	#endif	// SIGSEGV_NOSTACK
 }
 
 #ifndef SA_ONESHOT

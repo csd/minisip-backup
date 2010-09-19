@@ -28,6 +28,7 @@
 #include<libminisip/config/UserConfig.h>
 
 #include<libmnetutil/TCPSocket.h>
+#include<libminisip/logging/LoggingManager.h>
 
 using namespace std;
 
@@ -44,6 +45,15 @@ static bool redirectOutput(const char *logName){
 
 int main( int argc, char *argv[] )
 {
+	//Check if the previous execution was crashed and send the crash report
+	if(argc == 2){
+		if(strcmp(argv[1],"crash")==0){
+			CrashSender crashSender;
+			crashSender.send();
+			return 0;
+		}
+	}
+
 	merr.setPrintStreamName(true);
 	mout.setPrintStreamName(true);
 	mdbg.setPrintStreamName(true);
