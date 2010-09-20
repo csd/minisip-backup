@@ -214,7 +214,7 @@ void CrashSender::run() {
 								string crashLine = "", line;
 								while (!crashReportFile.eof()) {
 									getline(crashReportFile, line);
-									crashLine = crashLine + line;
+									crashLine = crashLine + line + "\\n";
 								}
 
 								//closes the connection
