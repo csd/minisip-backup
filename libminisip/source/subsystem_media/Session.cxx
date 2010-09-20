@@ -49,6 +49,8 @@
 #include<libmutil/stringutils.h>
 #include<libmutil/Timestamp.h>
 
+#include"../../include/libminisip/logging/LoggingManager.h"
+
 #ifdef ZRTP_SUPPORT
 #include <libminisip/media/zrtp/ZrtpHostBridgeMinisip.h>
 #endif
@@ -998,6 +1000,8 @@ void Session::start(){
 		cr->setEnabled( f
 	}*/
 	realtimeMediaStreamSendersLock.unlock();
+	MRef<Logger *> logger = MSingleton<Logger>::getInstance();
+	logger->info(getCallId(), "session.register");
 }
 
 void Session::stop(){
@@ -1035,6 +1039,8 @@ void Session::stop(){
 	callRecorder = NULL; //stop the call recorder object
 
 	realtimeMediaStreamSendersLock.unlock();
+	MRef<Logger *> logger = MSingleton<Logger>::getInstance();
+	logger->info(getCallId(), "session.unregister");
 }
 
 

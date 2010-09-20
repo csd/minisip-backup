@@ -153,7 +153,6 @@ bool SipDialogRegister::a1_trying_registred_2xx( const SipSMCommand &command){
 		}
 		getDialogConfig()->sipIdentity->setRegisteredContacts ( contacts );
 		getDialogConfig()->sipIdentity->setIsRegistered ( true );
-		
 		CommandString cmdstr( 
 			dialogState.callId, 
 			SipCommandString::register_ok, 
