@@ -29,6 +29,7 @@
 #include<libminisip/media/video/codec/VideoEncoderCallback.h>
 #include<libminisip/media/video/VideoException.h>
 //#include<libminisip/media/rtp/RtpPacket.h>
+#include<libminisip/logging/LoggingManager.h>
 
 #include<config.h>
 #include<stdio.h>
@@ -87,6 +88,7 @@ extern volatile int globalBitRate;
 
 void AVEncoder::init( uint32_t width, uint32_t height ){
 	cerr << "=========================== doing AVEncoder::init============================"<<endl;
+	Logger::getInstance()->info(string("Encoder initialized successfully."), "info.encoder");
 	cerr << "AVEncoder::init("<<width<<","<<height<<endl;
 	if (width>4000||height>4000){
 		width=1280;
@@ -140,6 +142,7 @@ void AVEncoder::close(){
 	VideoCodec *videoCodec = (VideoCodec*)this->videoCodec;
 	if (videoCodec)
 		hdviper_destroy_video_encoder(videoCodec);
+	Logger::getInstance()->info(string("Encoder closed."), "info.encoder");
 }
 
 void AVEncoder::setLocalDisplay(MRef<VideoDisplay*> d){
@@ -171,6 +174,7 @@ void AVEncoder::handle( MImage * image ){
 
 	if (globalBitRate!=lastBitRate){
 		cerr <<"EEEE: bitrate changed. ============================="<<endl;
+		Logger::getInstance()->info(string("Bit rate changed."), "info.encoder");
 		init(image->width, image->height);
 		lastBitRate=globalBitRate;
 
@@ -191,6 +195,9 @@ void AVEncoder::handle( MImage * image ){
                 printf("%d frames in %fs\n", REPORT_N, sec);
                 printf("FPS_ENCODE: %f for video of size %dx%d\n", (float)REPORT_N/(float)sec, video->width, video->height );
                 lasttime=now;
+                char temp[100];
+                sprintf(temp, "%.2f", REPORT_N/sec);
+                Logger::getInstance()->info(temp, "info.encoderFramerate");
         }
 #endif
 

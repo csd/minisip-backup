@@ -350,12 +350,9 @@ int Minisip::join(){
 }
 
 int Minisip::exit() {
-	MRef<Logger *> logger = MSingleton<Logger>::getInstance();
-	string exit_status = "0";
 	mout << BOLD << "Minisip is Shutting down!!!" << PLAIN << endl;
-
-	logger->info(exit_status, "system.exiting");
-	logger->stopLogger();
+	Logger::getInstance()->info(string("0"), "info.MiniSIPExiting");
+	Logger::getInstance()->stopLogger();
 
 	stop();
 #ifdef DEBUG_OUTPUT
@@ -389,11 +386,11 @@ int Minisip::startSip() {
 	loggingManager->init();
 
 	//Logging system properties
-	MRef<Logger *> logger = MSingleton<Logger>::getInstance();
-	logger->setLevel("INFO");
-	logger->setLoggingModuleVersion();
-	logger->info(logger->log_version, "system.loggingversion");
-	logger->info(itoa(pid), "system.pid");
+	Logger::getInstance()->setLevel("INFO");
+	Logger::getInstance()->setLoggingModuleVersion();
+	Logger::getInstance()->info(string("MiniSIP started"), "info.MiniSIPStarted");
+	Logger::getInstance()->info(Logger::getInstance()->log_version, "info.loggingVersion");
+	Logger::getInstance()->info(itoa(pid), "info.pid");
 
 	try {
 		messageRouter = new MessageRouter();
@@ -416,12 +413,12 @@ int Minisip::startSip() {
 		// FIXME: This should be done more often
 		localIpString = externalContactIP = ipProvider->getExternalIp();                
 
-		logger->info(localIpString, "system.myip");
+		Logger::getInstance()->info(localIpString, "info.myIP");
 
 		bool done;
 		int port = phoneConf->sipStackConfig->preferedLocalSipPort;
 
-		logger->info(itoa(port), "system.myport");
+		Logger::getInstance()->info(itoa(port), "config.myPort");
 
 		MRef<UDPSocket*> udpSocket;
 		int ntries = 8;
@@ -549,6 +546,7 @@ printf("---------------------- Minisip startSip Message Router setCallBack ");
 	catch(exception &exc){
 		//FIXME: Display message in GUI
 		merr << "Minisip caught an exception. Quitting."<< endl;
+		Logger::getInstance()->info(string("Minisip caught an exception"), "error.MiniSIPExiting");
 		merr << exc.what() << endl;
 		ret = -1;
 	}
@@ -557,7 +555,7 @@ printf("---------------------- Minisip startSip Message Router setCallBack ");
 #ifdef DEBUG_OUTPUT
 		merr << "Minisip caught an unknown exception (default). Quitting."<< endl;
 #endif
-		logger->info(itoa(ret), "system.exiting");
+		Logger::getInstance()->info(string("-1"), "error.MiniSIPExiting");
 		ret = -1;
 	};
 	return ret;

@@ -401,6 +401,7 @@ void DeckLinkGrabber::init(){
 	{
 		fprintf(stderr, "This application requires the DeckLink drivers installed.\n");
 		initialized=false;
+		Logger::getInstance()->info(string("This application requires the DeckLink drivers installed."), "error.decklink");
 		return;
 	}
 
@@ -410,6 +411,7 @@ void DeckLinkGrabber::init(){
 	{
 		fprintf(stderr, "No DeckLink PCI cards found.\n");
 		initialized=false;
+		Logger::getInstance()->info(string("No DeckLink PCI cards found."), "error.decklink");
 		return;
 	}
 	int d=deviceno;
@@ -418,6 +420,7 @@ void DeckLinkGrabber::init(){
 	if (result != S_OK)
 	{
 		fprintf(stderr, "Decklink: Error: Card number %d not found.\n",deviceno);
+		Logger::getInstance()->info(string("Decklink card not found."), "error.decklink");
 		massert(result==S_OK); //better to quit than continue until it is handled
 		initialized=false;
 		return;
@@ -441,6 +444,7 @@ void DeckLinkGrabber::init(){
 	{
 		fprintf(stderr, "Could not obtain the video output display mode iterator - result = %08x\n", result);
 		initialized=false;
+		Logger::getInstance()->info(string("Could not obtain the video output display mode iterator."), "error.decklink");
 		return;
 	}
 #if 0
@@ -460,6 +464,7 @@ void DeckLinkGrabber::init(){
 	{
 		fprintf(stderr, "Invalid mode %d specified\n", g_videoModeIndex);
 		initialized=false;
+		Logger::getInstance()->info(string("Invalid display mode specified."), "error.decklink");
 		return;
 	}
 #endif
@@ -470,6 +475,7 @@ void DeckLinkGrabber::init(){
 	{
 		fprintf(stderr, "Failed to enable video input. Is another application using the card?\n");
 		initialized=false;
+		Logger::getInstance()->info(string("Failed to enable video input. Another application may be using the card."), "error.decklink");
 		return;
 	}
 
@@ -521,31 +527,27 @@ bool DeckLinkGrabber::setImageChroma( uint32_t chroma ){
 }
 
 void DeckLinkGrabber::start(){
-
-	cerr << "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& start grabber <"<< device <<">"<< endl;
 	//	UserStruct.stopped = false;
 	doStop=false;
 	if (capture)
 		capture->doStop=false;
 	massert(startBlockSem);
 	startBlockSem->inc();
+	Logger::getInstance()->info(string("Decklink grabber started."), "info.decklink");
 }
 
 void DeckLinkGrabber::stop(){
-	cerr << "&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& stop grabber <"<< device <<">"<< endl;
 	//Note: this can be called even if open has not been done.
 	//	UserStruct.stopped = true;
 	doStop=true;
 	if (capture){
 		capture->stop();
-		  cerr << "2 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& stop grabber <"<< device <<">"<< endl;
 	}
 	if (runthread){
 		runthread->join();
 		runthread=NULL;
-		  cerr << "3 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& stop grabber <"<< device <<">"<< endl;
 	}
-	  cerr << "4 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& stop grabber <"<< device <<">"<< endl;
+	Logger::getInstance()->info(string("Decklink grabber stopped."), "info.decklink");
 }
 
 /*loop that reads from the card (and calls handler->handle()) until stop() is called*/
@@ -634,6 +636,7 @@ void DeckLinkGrabber::read( ImageHandler * handler ){
 	if(result != S_OK)
 	{
 		cerr<<"ERROR: could not start DeckLink capturing"<<endl;
+		Logger::getInstance()->info(string("Could not start DeckLink capturing"), "error.decklink");
 		return;
 	}
 
@@ -670,7 +673,7 @@ void DeckLinkGrabber::read( ImageHandler * handler ){
 			cerr <<"========> DeckLinkGrabber: CPU usage: "<< ((float)delta_cpu/(float)delta_wall)*100.0<<"%"<<endl;
 			char temp[100];
 			sprintf(temp, "%.2f", ((float)delta_cpu/(float)delta_wall)*100.0);
-			Logger::getInstance()->info(temp, "grabber.cpu");
+			Logger::getInstance()->info(temp, "info.grabbercpu");
 			last_cput=now_cpu;
 			last_wallt=now_wall;
 

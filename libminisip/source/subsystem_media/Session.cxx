@@ -1000,8 +1000,7 @@ void Session::start(){
 		cr->setEnabled( f
 	}*/
 	realtimeMediaStreamSendersLock.unlock();
-	MRef<Logger *> logger = MSingleton<Logger>::getInstance();
-	logger->info(getCallId(), "session.register");
+	Logger::getInstance()->info(getCallId(), "info.sessionRegister");
 }
 
 void Session::stop(){
@@ -1039,8 +1038,7 @@ void Session::stop(){
 	callRecorder = NULL; //stop the call recorder object
 
 	realtimeMediaStreamSendersLock.unlock();
-	MRef<Logger *> logger = MSingleton<Logger>::getInstance();
-	logger->info(getCallId(), "session.unregister");
+	Logger::getInstance()->info(getCallId(), "info.sessionUnregister");
 }
 
 

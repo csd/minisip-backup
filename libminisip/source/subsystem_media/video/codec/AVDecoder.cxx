@@ -85,6 +85,7 @@ AVDecoder::AVDecoder():handler(NULL),codec( NULL ),context( NULL ){
 
 	if( codec == NULL ){
 		cerr << "EEEE: Error: libavcodec does not support H264"<<endl;
+		Logger::getInstance()->info(string("libavcodec does not support H264."), "error.decoder");
 		throw VideoException( "libavcodec does not support H264" );
 	}
 
@@ -95,12 +96,13 @@ AVDecoder::AVDecoder():handler(NULL),codec( NULL ),context( NULL ){
 #endif
 
 	if( avcodec_open( context, codec ) != 0 ){
+		Logger::getInstance()->info(string("Could not open libavcodec codec."), "error.decoder");
 		throw VideoException( "Could not open libavcodec codec" );
 	}
 	
 	context->opaque = this;
 	lastImage = NULL;
-
+	Logger::getInstance()->info(string("Decoder initialized successfully."), "info.decoder");
 }
 
 void AVDecoder::close(){
@@ -141,7 +143,7 @@ void AVDecoder::decodeFrame( uint8_t * data, uint32_t length ){
                 lasttime=now;
 		char temp[100];
 		sprintf(temp, "%.2f", REPORT_N/sec);
-		Logger::getInstance()->info(temp, "decoder.framerate");
+		Logger::getInstance()->info(temp, "info.decoderFramerate");
         }
 
 	int ret;
@@ -229,7 +231,7 @@ void AVDecoder::decodeFrame( uint8_t * data, uint32_t length ){
 		cerr <<"========> AVDecoder CPU usage: "<< ((float)delta_cpu/(float)delta_wall)*100.0<<"%"<<endl;
 		char temp[100];
 		sprintf(temp, "%f %", ((float)delta_cpu/(float)delta_wall)*100.0);
-		Logger::getInstance()->info(temp, "decoder.cpu");
+		Logger::getInstance()->info(temp, "info.decoderCpu");
 	}
 
 }	
