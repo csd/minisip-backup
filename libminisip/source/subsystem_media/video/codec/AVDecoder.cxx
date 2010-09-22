@@ -85,7 +85,7 @@ AVDecoder::AVDecoder():handler(NULL),codec( NULL ),context( NULL ){
 
 	if( codec == NULL ){
 		cerr << "EEEE: Error: libavcodec does not support H264"<<endl;
-		Logger::getInstance()->info(string("libavcodec does not support H264."), "error.decoder");
+		Logger::getInstance()->info(string("libavcodec does not support H264"), "error.decoder");
 		throw VideoException( "libavcodec does not support H264" );
 	}
 
@@ -96,13 +96,13 @@ AVDecoder::AVDecoder():handler(NULL),codec( NULL ),context( NULL ){
 #endif
 
 	if( avcodec_open( context, codec ) != 0 ){
-		Logger::getInstance()->info(string("Could not open libavcodec codec."), "error.decoder");
+		Logger::getInstance()->info(string("Could not open libavcodec codec"), "error.decoder");
 		throw VideoException( "Could not open libavcodec codec" );
 	}
 	
 	context->opaque = this;
 	lastImage = NULL;
-	Logger::getInstance()->info(string("Decoder initialized successfully."), "info.decoder");
+	Logger::getInstance()->info(string("Decoder initialized successfully"), "info.decoder");
 }
 
 void AVDecoder::close(){

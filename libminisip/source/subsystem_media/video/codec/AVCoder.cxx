@@ -88,7 +88,7 @@ extern volatile int globalBitRate;
 
 void AVEncoder::init( uint32_t width, uint32_t height ){
 	cerr << "=========================== doing AVEncoder::init============================"<<endl;
-	Logger::getInstance()->info(string("Encoder initialized successfully."), "info.encoder");
+	Logger::getInstance()->info(string("Encoder initialized successfully"), "info.encoder");
 	cerr << "AVEncoder::init("<<width<<","<<height<<endl;
 	if (width>4000||height>4000){
 		width=1280;
@@ -142,7 +142,7 @@ void AVEncoder::close(){
 	VideoCodec *videoCodec = (VideoCodec*)this->videoCodec;
 	if (videoCodec)
 		hdviper_destroy_video_encoder(videoCodec);
-	Logger::getInstance()->info(string("Encoder closed."), "info.encoder");
+	Logger::getInstance()->info(string("Encoder closed"), "info.encoder");
 }
 
 void AVEncoder::setLocalDisplay(MRef<VideoDisplay*> d){
@@ -174,7 +174,7 @@ void AVEncoder::handle( MImage * image ){
 
 	if (globalBitRate!=lastBitRate){
 		cerr <<"EEEE: bitrate changed. ============================="<<endl;
-		Logger::getInstance()->info(string("Bit rate changed."), "info.encoder");
+		Logger::getInstance()->info(string("Bit rate changed"), "info.encoder");
 		init(image->width, image->height);
 		lastBitRate=globalBitRate;
 
