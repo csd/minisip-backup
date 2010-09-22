@@ -155,7 +155,7 @@ void Logger::setLevel(std::string logLevel) {
 
 //Initilizes the logging version
 void Logger::setLoggingModuleVersion(void) {
-	log_version = "0.0.5";
+	log_version = "0.0.6";
 }
 
 //Sets the logging manger reference
